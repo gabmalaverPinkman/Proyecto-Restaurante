@@ -6,7 +6,7 @@ public class Customer {
 
 	private String firstName;
 	private String lastName;
-	private int dni;
+	private Integer dni;
 	private List<Order> orders;
 	private int assignedTable;
 	
@@ -21,6 +21,12 @@ public class Customer {
 		this.dni = dni;
 		this.orders = orders;
 		this.assignedTable = assignedTable;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [firstName=" + firstName + ", lastName=" + lastName + ", dni=" + dni + ", orders=" + orders
+				+ ", assignedTable=" + assignedTable + "]";
 	}
 
 	public String getFirstName() {
@@ -39,7 +45,7 @@ public class Customer {
 		this.lastName = lastName;
 	}
 
-	public int getDni() {
+	public Integer getDni() {
 		return dni;
 	}
 
