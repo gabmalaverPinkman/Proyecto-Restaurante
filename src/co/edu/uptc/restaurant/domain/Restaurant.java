@@ -22,6 +22,54 @@ public class Restaurant {
 		this.phoneNumber = phoneNumber;
 		this.numberTables = numberTables;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public float getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(float qualification) {
+		this.qualification = qualification;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public int getNumberTables() {
+		return numberTables;
+	}
+
+	public void setNumberTables(int numberTables) {
+		this.numberTables = numberTables;
+	}
 	
 	
 }
