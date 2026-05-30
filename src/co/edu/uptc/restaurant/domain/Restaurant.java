@@ -70,6 +70,12 @@ public class Restaurant {
 	public void setNumberTables(int numberTables) {
 		this.numberTables = numberTables;
 	}
+
+	@Override
+	public String toString() {
+		return "Restaurant [name=" + name + ", qualification=" + qualification + ", address=" + address + ", id=" + id
+				+ ", phoneNumber=" + phoneNumber + ", numberTables=" + numberTables + "]";
+	}
 	
 	
 }
