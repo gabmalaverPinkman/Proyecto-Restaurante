@@ -5,11 +5,7 @@ import co.edu.uptc.restaurant.domain.Order;
 
 public class OrderRepository {
 
-	private HashMap<Integer, Order> orders;
-
-	public OrderRepository() {
-		super();
-	}
+	private HashMap<Integer, Order> orders = new HashMap<>();
 
 	public OrderRepository(HashMap<Integer, Order> orders) {
 		super();

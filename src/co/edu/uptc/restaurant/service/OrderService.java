@@ -9,10 +9,6 @@ public class OrderService {
 
 	private OrderRepository orderRepository;
 
-	public OrderService() {
-		super();
-	}
-
 	public OrderService(OrderRepository orderRepository) {
 		super();
 		this.orderRepository = orderRepository;

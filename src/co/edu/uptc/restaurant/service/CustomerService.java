@@ -9,10 +9,6 @@ public class CustomerService {
 	
 	private CustomerRepository customerRepository;
 
-	public CustomerService() {
-		super();
-	}
-
 	public CustomerService(CustomerRepository customerRepository) {
 		super();
 		this.customerRepository = customerRepository;

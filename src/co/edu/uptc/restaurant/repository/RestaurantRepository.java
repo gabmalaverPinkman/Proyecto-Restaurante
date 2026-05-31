@@ -5,12 +5,7 @@ import co.edu.uptc.restaurant.domain.Restaurant;
 
 public class RestaurantRepository {
 
-	private HashMap<Integer, Restaurant> restaurants;
-
-	public RestaurantRepository() {
-		super();
-	}
-
+	private HashMap<Integer, Restaurant> restaurants = new HashMap<>();
 	public RestaurantRepository(HashMap<Integer, Restaurant> restaurants) {
 		super();
 		this.restaurants = restaurants;

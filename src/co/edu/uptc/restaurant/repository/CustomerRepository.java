@@ -5,11 +5,7 @@ import co.edu.uptc.restaurant.domain.Customer;
 
 public class CustomerRepository {
 	
-	private HashMap<Integer, Customer> customers;
-
-	public CustomerRepository() {
-		super();
-	}
+	private HashMap<Integer, Customer> customers = new HashMap<>();
 
 	public CustomerRepository(HashMap<Integer, Customer> customers) {
 		super();
