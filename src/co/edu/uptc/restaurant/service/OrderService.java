@@ -38,10 +38,13 @@ public class OrderService {
 	}
 
 	public boolean addOrder(Order order) {
-		if (validate(order)) {
-			return this.orderRepository.addOrder(order);
-		}
-		return false;
+	    if (orderRepository.existById(order.getIdOrder())) {
+	        return false;
+	    }
+	    if (!validate(order)) {
+	        return false;
+	    }
+	    return this.orderRepository.addOrder(order);
 	}
 
 	public HashMap<Integer, Order> findAll() {
@@ -53,10 +56,10 @@ public class OrderService {
 	}
 
 	public boolean updateOrder(Order order) {
-		if (!validate(order)) {
+		if (!orderRepository.existById(order.getIdOrder())) {
 			return false;
 		}
-		if (orderRepository.existById(order.getIdOrder())) {
+		if (!validate(order)) {
 			return false;
 		}
 		return orderRepository.updateOrder(order);

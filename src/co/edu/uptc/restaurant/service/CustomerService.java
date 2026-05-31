@@ -35,11 +35,14 @@ public class CustomerService {
 	}
 	
 	public boolean addCustomer(Customer customer) {
-		if(validate(customer)) {
-			return this.customerRepository.addCustomer(customer);
+		if(customerRepository.existByDni(customer.getDni())) {
+			return false;
 		}
+		if(!validate(customer)) {
+			return false;
+		}
+		return this.customerRepository.addCustomer(customer);
 		
-		return false;
 	}
 	
 	public HashMap<Integer, Customer> findAll(){
@@ -54,7 +57,7 @@ public class CustomerService {
 		if(!validate(customer)) {
 			return false;
 		}
-		if(customerRepository.existByDni(customer.getDni())) {
+		if(!customerRepository.existByDni(customer.getDni())) {
 			return false;
 		}
 		return customerRepository.updateCustomer(customer);
