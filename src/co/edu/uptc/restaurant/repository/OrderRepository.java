@@ -8,11 +8,10 @@ public class OrderRepository {
 	private HashMap<Integer, Order> orders;
 
 	public OrderRepository() {
-		super();
+		this.orders = new HashMap<>();
 	}
 
 	public OrderRepository(HashMap<Integer, Order> orders) {
-		super();
 		this.orders = orders;
 	}
 
@@ -50,6 +49,4 @@ public class OrderRepository {
 	public void setOrders(HashMap<Integer, Order> orders) {
 		this.orders = orders;
 	}
-
 }
-

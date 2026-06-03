@@ -1,5 +1,6 @@
 package co.edu.uptc.restaurant.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
@@ -14,12 +15,12 @@ public class Customer {
 		super();
 	}
 
-	public Customer(String firstName, String lastName, int dni, List<Order> orders, int assignedTable) {
+	public Customer(String firstName, String lastName, int dni, int assignedTable) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dni = dni;
-		this.orders = orders;
+		this.orders = new ArrayList<>();
 		this.assignedTable = assignedTable;
 	}
 

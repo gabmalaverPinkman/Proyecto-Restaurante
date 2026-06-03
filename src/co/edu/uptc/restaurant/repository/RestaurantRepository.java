@@ -8,11 +8,10 @@ public class RestaurantRepository {
 	private HashMap<Integer, Restaurant> restaurants;
 
 	public RestaurantRepository() {
-		super();
+		this.restaurants = new HashMap<>();
 	}
 
 	public RestaurantRepository(HashMap<Integer, Restaurant> restaurants) {
-		super();
 		this.restaurants = restaurants;
 	}
 
@@ -50,5 +49,4 @@ public class RestaurantRepository {
 	public void setRestaurants(HashMap<Integer, Restaurant> restaurants) {
 		this.restaurants = restaurants;
 	}
-
 }

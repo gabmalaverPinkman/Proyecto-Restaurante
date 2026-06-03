@@ -4,41 +4,40 @@ import java.util.HashMap;
 import co.edu.uptc.restaurant.domain.Customer;
 
 public class CustomerRepository {
-	
+
 	private HashMap<Integer, Customer> customers;
 
 	public CustomerRepository() {
-		super();
+		this.customers = new HashMap<>();
 	}
 
 	public CustomerRepository(HashMap<Integer, Customer> customers) {
-		super();
 		this.customers = customers;
 	}
-	
+
 	public boolean addCustomer(Customer customer) {
-	    customers.put(customer.getDni(), customer); 
-	    return true;
+		customers.put(customer.getDni(), customer);
+		return true;
 	}
-	
+
 	public HashMap<Integer, Customer> findAll() {
 		return customers;
 	}
-	
+
 	public Customer findByDni(Integer dni) {
 		return this.customers.get(dni);
 	}
-	
+
 	public boolean updateCustomer(Customer customer) {
 		this.customers.put(customer.getDni(), customer);
 		return true;
 	}
-	
+
 	public boolean deleteCustomer(Integer dni) {
 		this.customers.remove(dni);
 		return true;
 	}
-	
+
 	public boolean existByDni(Integer dni) {
 		return customers.containsKey(dni);
 	}
@@ -50,5 +49,4 @@ public class CustomerRepository {
 	public void setCustomers(HashMap<Integer, Customer> customers) {
 		this.customers = customers;
 	}
-
 }
