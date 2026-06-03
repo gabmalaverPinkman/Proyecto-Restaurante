@@ -30,11 +30,11 @@ public class Main {
 		RestaurantService restaurantService = new RestaurantService(restaurantRepository);
 
 		CustomerController customerController = new CustomerController(customerService);
-		OrderController orderController = new OrderController(orderService);
+		OrderController orderController = new OrderController(orderService, customerService);
 		RestaurantController restaurantController = new RestaurantController(restaurantService);
 
 		CustomerView customerView = new CustomerView(customerController, scanner);
-		OrderView orderView = new OrderView(orderController, customerController, scanner);
+		OrderView orderView = new OrderView(orderController, scanner);
 		RestaurantView restaurantView = new RestaurantView(restaurantController, scanner);
 
 		int opcion = -1;
@@ -56,8 +56,8 @@ public class Main {
 				case 1: customerView.mostrarMenu(); break;
 				case 2: orderView.mostrarMenu(); break;
 				case 3: restaurantView.mostrarMenu(); break;
-				case 0: System.out.println("Hasta luego"); break;
-				default: System.out.println("Opción invalida");
+				case 0: System.out.println("¡Hasta luego!"); break;
+				default: System.out.println("Opción no válida.");
 			}
 		}
 

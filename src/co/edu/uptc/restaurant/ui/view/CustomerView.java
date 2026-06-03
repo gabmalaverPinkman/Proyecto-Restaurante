@@ -48,12 +48,11 @@ public class CustomerView {
 		System.out.print("Apellido: ");
 		String apellido = scanner.nextLine();
 		System.out.print("DNI: ");
-		int dni = leerEntero();
+		String dni = scanner.nextLine().trim();
 		System.out.print("Mesa asignada: ");
-		int mesa = leerEntero();
+		String mesa = scanner.nextLine().trim();
 
-		Customer cliente = new Customer(nombre, apellido, dni, mesa);
-		ResultDTO result = customerController.addCustomer(cliente);
+		ResultDTO result = customerController.addCustomer(dni, nombre, apellido, mesa);
 		mostrarResultado(result);
 	}
 
@@ -72,44 +71,43 @@ public class CustomerView {
 	private void buscarCliente() {
 		System.out.println("\n--- Buscar Cliente ---");
 		System.out.print("DNI: ");
-		int dni = leerEntero();
-		Customer c = customerController.findByDni(dni);
-		if (c == null) {
-			System.out.println("No se encontró ningún cliente con ese DNI.");
+		String dni = scanner.nextLine().trim();
+		ResultDTO result = customerController.findByDni(dni);
+		if (result.isSuccessful()) {
+			System.out.println(result.getCustomer());
 		} else {
-			System.out.println(c);
+			mostrarResultado(result);
 		}
 	}
 
 	private void actualizarCliente() {
 		System.out.println("\n--- Actualizar Cliente ---");
 		System.out.print("DNI del cliente a actualizar: ");
-		int dni = leerEntero();
+		String dni = scanner.nextLine().trim();
 		System.out.print("Nuevo nombre: ");
 		String nombre = scanner.nextLine();
 		System.out.print("Nuevo apellido: ");
 		String apellido = scanner.nextLine();
 		System.out.print("Nueva mesa asignada: ");
-		int mesa = leerEntero();
+		String mesa = scanner.nextLine().trim();
 
-		Customer cliente = new Customer(nombre, apellido, dni, mesa);
-		ResultDTO result = customerController.updateCustomer(cliente);
+		ResultDTO result = customerController.updateCustomer(dni, nombre, apellido, mesa);
 		mostrarResultado(result);
 	}
 
 	private void eliminarCliente() {
 		System.out.println("\n--- Eliminar Cliente ---");
 		System.out.print("DNI del cliente a eliminar: ");
-		int dni = leerEntero();
+		String dni = scanner.nextLine().trim();
 		ResultDTO result = customerController.deleteCustomer(dni);
 		mostrarResultado(result);
 	}
 
 	private void mostrarResultado(ResultDTO result) {
 		if (result.isSuccessful()) {
-			System.out.println( result.getMessage());
+			System.out.println("✓ " + result.getMessage());
 		} else {
-			System.out.println(" Operación fallida:");
+			System.out.println("✗ Operación fallida:");
 			for (String error : result.getListMessageError()) {
 				System.out.println("  - " + error);
 			}

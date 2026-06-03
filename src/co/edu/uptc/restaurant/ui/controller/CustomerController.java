@@ -18,7 +18,20 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
-	public ResultDTO addCustomer(Customer customer) {
+	public ResultDTO addCustomer(String dni, String firstName, String lastName, String assignedTable) {
+		ResultDTO resultDTO = new ResultDTO();
+		resultDTO.setSuccessful(true);
+
+		validateAlphanumericField("Validación dni", dni, "\\d+", resultDTO);
+		validateAlphanumericField("Validación firstName", firstName, "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", resultDTO);
+		validateAlphanumericField("Validación lastName", lastName, "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", resultDTO);
+		validateAlphanumericField("Validación assignedTable", assignedTable, "\\d+", resultDTO);
+
+		if (!resultDTO.isSuccessful()) {
+			return resultDTO;
+		}
+
+		Customer customer = new Customer(firstName, lastName, Integer.parseInt(dni), Integer.parseInt(assignedTable));
 		return customerService.addCustomer(customer);
 	}
 
@@ -26,16 +39,52 @@ public class CustomerController {
 		return customerService.findAll();
 	}
 
-	public Customer findByDni(Integer dni) {
-		return customerService.findByDni(dni);
+	public ResultDTO findByDni(String dni) {
+		ResultDTO resultDTO = new ResultDTO();
+		resultDTO.setSuccessful(true);
+
+		validateAlphanumericField("Validación dni", dni, "\\d+", resultDTO);
+		if (!resultDTO.isSuccessful()) {
+			return resultDTO;
+		}
+
+		Customer customer = customerService.findByDni(Integer.parseInt(dni));
+		if (customer == null) {
+			resultDTO.setSuccessful(false);
+			resultDTO.getListMessageError().add("No existe un cliente con ese DNI.");
+		} else {
+			resultDTO.setCustomer(customer);
+		}
+		return resultDTO;
 	}
 
-	public ResultDTO updateCustomer(Customer customer) {
+	public ResultDTO updateCustomer(String dni, String firstName, String lastName, String assignedTable) {
+		ResultDTO resultDTO = new ResultDTO();
+		resultDTO.setSuccessful(true);
+
+		validateAlphanumericField("Validación dni", dni, "\\d+", resultDTO);
+		validateAlphanumericField("Validación firstName", firstName, "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", resultDTO);
+		validateAlphanumericField("Validación lastName", lastName, "^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]+$", resultDTO);
+		validateAlphanumericField("Validación assignedTable", assignedTable, "\\d+", resultDTO);
+
+		if (!resultDTO.isSuccessful()) {
+			return resultDTO;
+		}
+
+		Customer customer = new Customer(firstName, lastName, Integer.parseInt(dni), Integer.parseInt(assignedTable));
 		return customerService.updateCustomer(customer);
 	}
 
-	public ResultDTO deleteCustomer(Integer dni) {
-		return customerService.deleteCustomer(dni);
+	public ResultDTO deleteCustomer(String dni) {
+		ResultDTO resultDTO = new ResultDTO();
+		resultDTO.setSuccessful(true);
+
+		validateAlphanumericField("Validación dni", dni, "\\d+", resultDTO);
+		if (!resultDTO.isSuccessful()) {
+			return resultDTO;
+		}
+
+		return customerService.deleteCustomer(Integer.parseInt(dni));
 	}
 
 	public boolean existByDni(Integer dni) {
@@ -48,5 +97,19 @@ public class CustomerController {
 
 	public void setCustomerService(CustomerService customerService) {
 		this.customerService = customerService;
+	}
+
+	private ResultDTO validateAlphanumericField(String nameValidation, String field,
+			String pattern, ResultDTO resultDTO) {
+		if (field == null || field.trim().isEmpty()) {
+			resultDTO.setSuccessful(false);
+			resultDTO.getListMessageError().add("El campo " + nameValidation + " no puede ser null ni vacío.");
+			return resultDTO;
+		}
+		if (!field.matches(pattern)) {
+			resultDTO.setSuccessful(false);
+			resultDTO.getListMessageError().add("Falló la validación: " + nameValidation);
+		}
+		return resultDTO;
 	}
 }

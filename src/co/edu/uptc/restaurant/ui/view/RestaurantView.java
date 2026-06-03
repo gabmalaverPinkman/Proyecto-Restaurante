@@ -44,20 +44,19 @@ public class RestaurantView {
 	private void agregarRestaurante() {
 		System.out.println("\n--- Agregar Restaurante ---");
 		System.out.print("ID: ");
-		int id = leerEntero();
+		String id = scanner.nextLine().trim();
 		System.out.print("Nombre: ");
 		String nombre = scanner.nextLine();
 		System.out.print("Calificación (ej: 4.5): ");
-		float calificacion = leerFloat();
+		String calificacion = scanner.nextLine().trim();
 		System.out.print("Dirección: ");
 		String direccion = scanner.nextLine();
 		System.out.print("Teléfono: ");
-		String telefono = scanner.nextLine();
+		String telefono = scanner.nextLine().trim();
 		System.out.print("Número de mesas: ");
-		int mesas = leerEntero();
+		String mesas = scanner.nextLine().trim();
 
-		Restaurant restaurante = new Restaurant(nombre, calificacion, direccion, id, telefono, mesas);
-		ResultDTO result = restaurantController.addRestaurant(restaurante);
+		ResultDTO result = restaurantController.addRestaurant(id, nombre, calificacion, direccion, telefono, mesas);
 		mostrarResultado(result);
 	}
 
@@ -76,48 +75,47 @@ public class RestaurantView {
 	private void buscarRestaurante() {
 		System.out.println("\n--- Buscar Restaurante ---");
 		System.out.print("ID: ");
-		int id = leerEntero();
-		Restaurant r = restaurantController.findById(id);
-		if (r == null) {
-			System.out.println("No se encontró ningún restaurante con ese ID.");
+		String id = scanner.nextLine().trim();
+		ResultDTO result = restaurantController.findById(id);
+		if (result.isSuccessful()) {
+			System.out.println(result.getRestaurant());
 		} else {
-			System.out.println(r);
+			mostrarResultado(result);
 		}
 	}
 
 	private void actualizarRestaurante() {
 		System.out.println("\n--- Actualizar Restaurante ---");
 		System.out.print("ID del restaurante a actualizar: ");
-		int id = leerEntero();
+		String id = scanner.nextLine().trim();
 		System.out.print("Nuevo nombre: ");
 		String nombre = scanner.nextLine();
 		System.out.print("Nueva calificación (ej: 4.5): ");
-		float calificacion = leerFloat();
+		String calificacion = scanner.nextLine().trim();
 		System.out.print("Nueva dirección: ");
 		String direccion = scanner.nextLine();
 		System.out.print("Nuevo teléfono: ");
-		String telefono = scanner.nextLine();
+		String telefono = scanner.nextLine().trim();
 		System.out.print("Nuevo número de mesas: ");
-		int mesas = leerEntero();
+		String mesas = scanner.nextLine().trim();
 
-		Restaurant restaurante = new Restaurant(nombre, calificacion, direccion, id, telefono, mesas);
-		ResultDTO result = restaurantController.updateRestaurant(restaurante);
+		ResultDTO result = restaurantController.updateRestaurant(id, nombre, calificacion, direccion, telefono, mesas);
 		mostrarResultado(result);
 	}
 
 	private void eliminarRestaurante() {
 		System.out.println("\n--- Eliminar Restaurante ---");
 		System.out.print("ID del restaurante a eliminar: ");
-		int id = leerEntero();
+		String id = scanner.nextLine().trim();
 		ResultDTO result = restaurantController.deleteRestaurant(id);
 		mostrarResultado(result);
 	}
 
 	private void mostrarResultado(ResultDTO result) {
 		if (result.isSuccessful()) {
-			System.out.println(result.getMessage());
+			System.out.println("✓ " + result.getMessage());
 		} else {
-			System.out.println("Operación fallida:");
+			System.out.println("✗ Operación fallida:");
 			for (String error : result.getListMessageError()) {
 				System.out.println("  - " + error);
 			}
@@ -128,16 +126,6 @@ public class RestaurantView {
 		while (true) {
 			try {
 				return Integer.parseInt(scanner.nextLine().trim());
-			} catch (NumberFormatException e) {
-				System.out.print("Ingrese un número válido: ");
-			}
-		}
-	}
-
-	private float leerFloat() {
-		while (true) {
-			try {
-				return Float.parseFloat(scanner.nextLine().trim());
 			} catch (NumberFormatException e) {
 				System.out.print("Ingrese un número válido: ");
 			}
