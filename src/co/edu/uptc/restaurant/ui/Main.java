@@ -56,8 +56,8 @@ public class Main {
 				case 1: customerView.mostrarMenu(); break;
 				case 2: orderView.mostrarMenu(); break;
 				case 3: restaurantView.mostrarMenu(); break;
-				case 0: System.out.println("¡Hasta luego!"); break;
-				default: System.out.println("Opción no válida.");
+				case 0: System.out.println("Hasta luego"); break;
+				default: System.out.println("Opción invalida");
 			}
 		}
 

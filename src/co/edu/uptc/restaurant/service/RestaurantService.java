@@ -46,12 +46,12 @@ public class RestaurantService {
 		}
 		if (restaurantRepository.existById(restaurant.getId())) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("Ya existe un restaurante con ese ID.");
+			result.getListMessageError().add("Ya existe un restaurante con ese ID");
 			return result;
 		}
 		restaurantRepository.addRestaurant(restaurant);
 		result.setSuccessful(true);
-		result.setMessage("Restaurante agregado exitosamente.");
+		result.setMessage("Restaurante agregado exitosamente");
 		return result;
 	}
 
@@ -70,12 +70,12 @@ public class RestaurantService {
 		}
 		if (!restaurantRepository.existById(restaurant.getId())) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("No existe un restaurante con ese ID.");
+			result.getListMessageError().add("No existe un restaurante con ese ID");
 			return result;
 		}
 		restaurantRepository.updateRestaurant(restaurant);
 		result.setSuccessful(true);
-		result.setMessage("Restaurante actualizado exitosamente.");
+		result.setMessage("Restaurante actualizado exitosamente");
 		return result;
 	}
 
@@ -83,12 +83,12 @@ public class RestaurantService {
 		ResultDTO result = new ResultDTO();
 		if (!restaurantRepository.existById(id)) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("No existe un restaurante con ese ID.");
+			result.getListMessageError().add("No existe un restaurante con ese ID");
 			return result;
 		}
 		restaurantRepository.deleteRestaurant(id);
 		result.setSuccessful(true);
-		result.setMessage("Restaurante eliminado exitosamente.");
+		result.setMessage("Restaurante eliminado exitosamente");
 		return result;
 	}
 

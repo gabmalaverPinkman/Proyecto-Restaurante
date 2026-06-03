@@ -62,7 +62,7 @@ public class OrderView {
 
 		Customer cliente = customerController.findByDni(dni);
 		if (cliente == null) {
-			System.out.println("✗ No existe un cliente con ese DNI.");
+			System.out.println("No existe un cliente con ese DNI.");
 			return;
 		}
 
@@ -110,7 +110,7 @@ public class OrderView {
 
 		Customer cliente = customerController.findByDni(dni);
 		if (cliente == null) {
-			System.out.println("✗ No existe un cliente con ese DNI.");
+			System.out.println("No existe un cliente con ese DNI.");
 			return;
 		}
 
@@ -129,9 +129,9 @@ public class OrderView {
 
 	private void mostrarResultado(ResultDTO result) {
 		if (result.isSuccessful()) {
-			System.out.println("✓ " + result.getMessage());
+			System.out.println(result.getMessage());
 		} else {
-			System.out.println("✗ Operación fallida:");
+			System.out.println("Operación fallida:");
 			for (String error : result.getListMessageError()) {
 				System.out.println("  - " + error);
 			}

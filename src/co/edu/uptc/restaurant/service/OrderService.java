@@ -21,19 +21,19 @@ public class OrderService {
 	public ResultDTO validate(Order order) {
 		ResultDTO result = new ResultDTO();
 		if (order.getIdOrder() <= 0) {
-			result.getListMessageError().add("El ID del pedido debe ser un número positivo.");
+			result.getListMessageError().add("El ID del pedido debe ser un número positivo");
 		}
 		if (order.getDate() == null) {
-			result.getListMessageError().add("La fecha no puede ser nula.");
+			result.getListMessageError().add("La fecha no puede ser nula");
 		}
 		if (order.getDish() == null || order.getDish().isBlank()) {
-			result.getListMessageError().add("El plato no puede estar vacío.");
+			result.getListMessageError().add("El plato no puede estar vacío");
 		}
 		if (order.getTotalCost() <= 0) {
-			result.getListMessageError().add("El costo total debe ser mayor a cero.");
+			result.getListMessageError().add("El costo total debe ser mayor a cero");
 		}
 		if (order.getCustomer() == null) {
-			result.getListMessageError().add("El pedido debe tener un cliente asociado.");
+			result.getListMessageError().add("El pedido debe tener un cliente asociado");
 		}
 		result.setSuccessful(result.getListMessageError().isEmpty());
 		return result;
@@ -46,12 +46,12 @@ public class OrderService {
 		}
 		if (orderRepository.existById(order.getIdOrder())) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("Ya existe un pedido con ese ID.");
+			result.getListMessageError().add("Ya existe un pedido con ese ID");
 			return result;
 		}
 		orderRepository.addOrder(order);
 		result.setSuccessful(true);
-		result.setMessage("Pedido agregado exitosamente.");
+		result.setMessage("Pedido agregado exitosamente");
 		return result;
 	}
 
@@ -70,7 +70,7 @@ public class OrderService {
 		}
 		if (!orderRepository.existById(order.getIdOrder())) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("No existe un pedido con ese ID.");
+			result.getListMessageError().add("No existe un pedido con ese ID");
 			return result;
 		}
 		orderRepository.updateOrder(order);
@@ -83,12 +83,12 @@ public class OrderService {
 		ResultDTO result = new ResultDTO();
 		if (!orderRepository.existById(idOrder)) {
 			result.setSuccessful(false);
-			result.getListMessageError().add("No existe un pedido con ese ID.");
+			result.getListMessageError().add("No existe un pedido con ese ID");
 			return result;
 		}
 		orderRepository.deleteOrder(idOrder);
 		result.setSuccessful(true);
-		result.setMessage("Pedido eliminado exitosamente.");
+		result.setMessage("Pedido eliminado exitosamente");
 		return result;
 	}
 

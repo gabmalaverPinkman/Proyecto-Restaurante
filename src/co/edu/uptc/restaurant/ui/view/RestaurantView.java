@@ -115,9 +115,9 @@ public class RestaurantView {
 
 	private void mostrarResultado(ResultDTO result) {
 		if (result.isSuccessful()) {
-			System.out.println("✓ " + result.getMessage());
+			System.out.println(result.getMessage());
 		} else {
-			System.out.println("✗ Operación fallida:");
+			System.out.println("Operación fallida:");
 			for (String error : result.getListMessageError()) {
 				System.out.println("  - " + error);
 			}
