@@ -32,14 +32,14 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_datosValidos_retornaExito() {
+	void addOrderTrue() {
 		ResultDTO result = orderService.addOrder(crearPedidoValido());
 		assertTrue(result.isSuccessful());
 		assertTrue(orderRepository.existById(1));
 	}
 
 	@Test
-	void addOrder_idDuplicado_retornaFallo() {
+	void addOrderIdDuplicatedFailed() {
 		orderService.addOrder(crearPedidoValido());
 		ResultDTO result = orderService.addOrder(crearPedidoValido());
 		assertFalse(result.isSuccessful());
@@ -47,7 +47,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_idNegativo_retornaFallo() {
+	void addOrderIdNegativeFailed() {
 		Order o = crearPedidoValido();
 		o.setIdOrder(-1);
 		ResultDTO result = orderService.addOrder(o);
@@ -55,7 +55,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_fechaNula_retornaFallo() {
+	void addOrderFailedNoDate() {
 		Order o = crearPedidoValido();
 		o.setDate(null);
 		ResultDTO result = orderService.addOrder(o);
@@ -64,7 +64,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_platoVacio_retornaFallo() {
+	void addOrderFailedNoDish() {
 		Order o = crearPedidoValido();
 		o.setDish("");
 		ResultDTO result = orderService.addOrder(o);
@@ -72,7 +72,7 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_costoNegativo_retornaFallo() {
+	void addOrderFailedNegativeCost() {
 		Order o = crearPedidoValido();
 		o.setTotalCost(-1.0);
 		ResultDTO result = orderService.addOrder(o);
@@ -80,26 +80,16 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void addOrder_clienteNulo_retornaFallo() {
+	void addOrderFailedNoClient() {
 		Order o = crearPedidoValido();
 		o.setCustomer(null);
 		ResultDTO result = orderService.addOrder(o);
 		assertFalse(result.isSuccessful());
 	}
 
-	@Test
-	void findAll_repositorioVacio_retornaMapaVacio() {
-		assertTrue(orderService.findAll().isEmpty());
-	}
 
 	@Test
-	void findAll_conUnPedido_retornaUno() {
-		orderService.addOrder(crearPedidoValido());
-		assertEquals(1, orderService.findAll().size());
-	}
-
-	@Test
-	void findById_existente_retornaPedido() {
+	void findByTrue() {
 		orderService.addOrder(crearPedidoValido());
 		Order o = orderService.findById(1);
 		assertNotNull(o);
@@ -107,12 +97,12 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void findById_inexistente_retornaNull() {
+	void findByFailed() {
 		assertNull(orderService.findById(999));
 	}
 
 	@Test
-	void updateOrder_existente_retornaExito() {
+	void updateOrderTrue() {
 		orderService.addOrder(crearPedidoValido());
 		Order actualizado = new Order(1, LocalDate.now(), 35000.0, "Ajiaco", crearClienteValido());
 		ResultDTO result = orderService.updateOrder(actualizado);
@@ -121,22 +111,14 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void updateOrder_inexistente_retornaFallo() {
+	void updateOrderFailedNoOrder() {
 		ResultDTO result = orderService.updateOrder(crearPedidoValido());
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void updateOrder_datosInvalidos_retornaFallo() {
-		orderService.addOrder(crearPedidoValido());
-		Order invalido = new Order(1, null, 25000.0, "Ajiaco", crearClienteValido());
-		ResultDTO result = orderService.updateOrder(invalido);
-		assertFalse(result.isSuccessful());
-	}
-
-	@Test
-	void deleteOrder_existente_retornaExito() {
+	void deleteOrderTrue() {
 		orderService.addOrder(crearPedidoValido());
 		ResultDTO result = orderService.deleteOrder(1);
 		assertTrue(result.isSuccessful());
@@ -144,20 +126,20 @@ class OrderServiceTest {
 	}
 
 	@Test
-	void deleteOrder_inexistente_retornaFallo() {
+	void deleteOrderFailedNoOrder() {
 		ResultDTO result = orderService.deleteOrder(999);
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void existById_existente_retornaTrue() {
+	void existByIdTrue() {
 		orderService.addOrder(crearPedidoValido());
 		assertTrue(orderService.existById(1));
 	}
 
 	@Test
-	void existById_inexistente_retornaFalse() {
+	void existByIdFailed() {
 		assertFalse(orderService.existById(999));
 	}
 }

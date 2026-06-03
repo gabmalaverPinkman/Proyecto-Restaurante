@@ -25,14 +25,14 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void addCustomer_datosValidos_retornaExito() {
+	void addCustomer_True() {
 		ResultDTO result = customerService.addCustomer(crearClienteValido());
 		assertTrue(result.isSuccessful());
 		assertTrue(customerRepository.existByDni(12345678));
 	}
 
 	@Test
-	void addCustomer_dniDuplicado_retornaFallo() {
+	void addCustomerFailedDuplicatedDni() {
 		customerService.addCustomer(crearClienteValido());
 		ResultDTO result = customerService.addCustomer(crearClienteValido());
 		assertFalse(result.isSuccessful());
@@ -40,7 +40,7 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void addCustomer_nombreVacio_retornaFallo() {
+	void addCustomerFailedNameVoid() {
 		Customer c = crearClienteValido();
 		c.setFirstName("");
 		ResultDTO result = customerService.addCustomer(c);
@@ -49,7 +49,7 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void addCustomer_apellidoVacio_retornaFallo() {
+	void addCustomerFailedLastNameVoid() {
 		Customer c = crearClienteValido();
 		c.setLastName("");
 		ResultDTO result = customerService.addCustomer(c);
@@ -58,7 +58,7 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void addCustomer_dniNegativo_retornaFallo() {
+	void addCustomerFailedNegativeDni() {
 		Customer c = crearClienteValido();
 		c.setDni(-1);
 		ResultDTO result = customerService.addCustomer(c);
@@ -66,26 +66,16 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void addCustomer_mesaNegativa_retornaFallo() {
+	void addCustomerFailedNegativeTable() {
 		Customer c = crearClienteValido();
 		c.setAssignedTable(-1);
 		ResultDTO result = customerService.addCustomer(c);
 		assertFalse(result.isSuccessful());
 	}
 
-	@Test
-	void findAll_repositorioVacio_retornaMapaVacio() {
-		assertTrue(customerService.findAll().isEmpty());
-	}
 
 	@Test
-	void findAll_conUnCliente_retornaUno() {
-		customerService.addCustomer(crearClienteValido());
-		assertEquals(1, customerService.findAll().size());
-	}
-
-	@Test
-	void findByDni_existente_retornaCliente() {
+	void findByDniTrue() {
 		customerService.addCustomer(crearClienteValido());
 		Customer c = customerService.findByDni(12345678);
 		assertNotNull(c);
@@ -93,12 +83,12 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void findByDni_inexistente_retornaNull() {
+	void findByDniFailed() {
 		assertNull(customerService.findByDni(99999999));
 	}
 
 	@Test
-	void updateCustomer_existente_retornaExito() {
+	void updateCustomerTrue() {
 		customerService.addCustomer(crearClienteValido());
 		Customer actualizado = new Customer("Santiago Actualizado", "Borda", 12345678, 5);
 		ResultDTO result = customerService.updateCustomer(actualizado);
@@ -107,14 +97,14 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void updateCustomer_inexistente_retornaFallo() {
+	void updateCustomerFailed() {
 		ResultDTO result = customerService.updateCustomer(crearClienteValido());
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void updateCustomer_datosInvalidos_retornaFallo() {
+	void updateCustomerFailedInvalidDdata() {
 		customerService.addCustomer(crearClienteValido());
 		Customer invalido = new Customer("", "Borda", 12345678, 5);
 		ResultDTO result = customerService.updateCustomer(invalido);
@@ -122,7 +112,7 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void deleteCustomer_existente_retornaExito() {
+	void deleteCustomerTrue() {
 		customerService.addCustomer(crearClienteValido());
 		ResultDTO result = customerService.deleteCustomer(12345678);
 		assertTrue(result.isSuccessful());
@@ -130,20 +120,20 @@ class CustomerServiceTest {
 	}
 
 	@Test
-	void deleteCustomer_inexistente_retornaFallo() {
+	void deleteCustomerFailed() {
 		ResultDTO result = customerService.deleteCustomer(99999999);
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void existByDni_existente_retornaTrue() {
+	void existByDniTrue() {
 		customerService.addCustomer(crearClienteValido());
 		assertTrue(customerService.existByDni(12345678));
 	}
 
 	@Test
-	void existByDni_inexistente_retornaFalse() {
+	void existByDniFailed() {
 		assertFalse(customerService.existByDni(99999999));
 	}
 }

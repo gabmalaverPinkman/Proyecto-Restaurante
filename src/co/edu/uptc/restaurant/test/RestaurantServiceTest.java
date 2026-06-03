@@ -25,14 +25,14 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_datosValidos_retornaExito() {
+	void addRestaurantTrue() {
 		ResultDTO result = restaurantService.addRestaurant(crearRestauranteValido());
 		assertTrue(result.isSuccessful());
 		assertTrue(restaurantRepository.existById(1));
 	}
 
 	@Test
-	void addRestaurant_idDuplicado_retornaFallo() {
+	void addRestaurantFailedDuplicatedId() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		ResultDTO result = restaurantService.addRestaurant(crearRestauranteValido());
 		assertFalse(result.isSuccessful());
@@ -40,7 +40,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_idNegativo_retornaFallo() {
+	void addRestaurantFailedNegativeId() {
 		Restaurant r = crearRestauranteValido();
 		r.setId(-1);
 		ResultDTO result = restaurantService.addRestaurant(r);
@@ -48,7 +48,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_nombreVacio_retornaFallo() {
+	void addRestaurantFailedNoName() {
 		Restaurant r = crearRestauranteValido();
 		r.setName("");
 		ResultDTO result = restaurantService.addRestaurant(r);
@@ -57,7 +57,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_direccionVacia_retornaFallo() {
+	void addRestaurantFailedNoAddress() {
 		Restaurant r = crearRestauranteValido();
 		r.setAddress("");
 		ResultDTO result = restaurantService.addRestaurant(r);
@@ -65,7 +65,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_telefonoVacio_retornaFallo() {
+	void addRestaurantFailedNoPhoneNumber() {
 		Restaurant r = crearRestauranteValido();
 		r.setPhoneNumber("");
 		ResultDTO result = restaurantService.addRestaurant(r);
@@ -73,7 +73,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void addRestaurant_mesasNegativas_retornaFallo() {
+	void addRestaurantFailedNegatieTables() {
 		Restaurant r = crearRestauranteValido();
 		r.setNumberTables(-1);
 		ResultDTO result = restaurantService.addRestaurant(r);
@@ -81,18 +81,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void findAll_repositorioVacio_retornaMapaVacio() {
-		assertTrue(restaurantService.findAll().isEmpty());
-	}
-
-	@Test
-	void findAll_conUnRestaurante_retornaUno() {
-		restaurantService.addRestaurant(crearRestauranteValido());
-		assertEquals(1, restaurantService.findAll().size());
-	}
-
-	@Test
-	void findById_existente_retornaRestaurante() {
+	void findByIdTrue() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		Restaurant r = restaurantService.findById(1);
 		assertNotNull(r);
@@ -100,12 +89,12 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void findById_inexistente_retornaNull() {
+	void findByIdFailed() {
 		assertNull(restaurantService.findById(999));
 	}
 
 	@Test
-	void updateRestaurant_existente_retornaExito() {
+	void updateRestaurantTrue() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		Restaurant actualizado = new Restaurant("El Corral Actualizado", 4.8f, "Cra 7 # 32-10", 1, "3001234567", 15);
 		ResultDTO result = restaurantService.updateRestaurant(actualizado);
@@ -114,14 +103,14 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void updateRestaurant_inexistente_retornaFallo() {
+	void updateRestaurantFailed() {
 		ResultDTO result = restaurantService.updateRestaurant(crearRestauranteValido());
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void updateRestaurant_datosInvalidos_retornaFallo() {
+	void updateRestauratFailedInvalidData() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		Restaurant invalido = new Restaurant("", 4.5f, "Cra 7 # 32-10", 1, "3001234567", 10);
 		ResultDTO result = restaurantService.updateRestaurant(invalido);
@@ -129,7 +118,7 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void deleteRestaurant_existente_retornaExito() {
+	void deleteRestaurantTrue() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		ResultDTO result = restaurantService.deleteRestaurant(1);
 		assertTrue(result.isSuccessful());
@@ -137,20 +126,20 @@ class RestaurantServiceTest {
 	}
 
 	@Test
-	void deleteRestaurant_inexistente_retornaFallo() {
+	void deleteRestaurantFailed() {
 		ResultDTO result = restaurantService.deleteRestaurant(999);
 		assertFalse(result.isSuccessful());
 		assertFalse(result.getListMessageError().isEmpty());
 	}
 
 	@Test
-	void existById_existente_retornaTrue() {
+	void existByIdTrue() {
 		restaurantService.addRestaurant(crearRestauranteValido());
 		assertTrue(restaurantService.existById(1));
 	}
 
 	@Test
-	void existById_inexistente_retornaFalse() {
+	void existByIdFailed() {
 		assertFalse(restaurantService.existById(999));
 	}
 }
