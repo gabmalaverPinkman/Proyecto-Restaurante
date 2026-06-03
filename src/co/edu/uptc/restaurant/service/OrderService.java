@@ -3,6 +3,7 @@ package co.edu.uptc.restaurant.service;
 import java.util.HashMap;
 
 import co.edu.uptc.restaurant.domain.Order;
+import co.edu.uptc.restaurant.dto.ResultDTO;
 import co.edu.uptc.restaurant.repository.OrderRepository;
 
 public class OrderService {
@@ -14,34 +15,44 @@ public class OrderService {
 	}
 
 	public OrderService(OrderRepository orderRepository) {
-		super();
 		this.orderRepository = orderRepository;
 	}
 
-	public boolean validate(Order order) {
+	public ResultDTO validate(Order order) {
+		ResultDTO result = new ResultDTO();
 		if (order.getIdOrder() <= 0) {
-			return false;
+			result.getListMessageError().add("El ID del pedido debe ser un número positivo.");
 		}
 		if (order.getDate() == null) {
-			return false;
+			result.getListMessageError().add("La fecha no puede ser nula.");
 		}
 		if (order.getDish() == null || order.getDish().isBlank()) {
-			return false;
+			result.getListMessageError().add("El plato no puede estar vacío.");
 		}
 		if (order.getTotalCost() <= 0) {
-			return false;
+			result.getListMessageError().add("El costo total debe ser mayor a cero.");
 		}
 		if (order.getCustomer() == null) {
-			return false;
+			result.getListMessageError().add("El pedido debe tener un cliente asociado.");
 		}
-		return true;
+		result.setSuccessful(result.getListMessageError().isEmpty());
+		return result;
 	}
 
-	public boolean addOrder(Order order) {
-		if (validate(order)) {
-			return this.orderRepository.addOrder(order);
+	public ResultDTO addOrder(Order order) {
+		ResultDTO result = validate(order);
+		if (!result.isSuccessful()) {
+			return result;
 		}
-		return false;
+		if (orderRepository.existById(order.getIdOrder())) {
+			result.setSuccessful(false);
+			result.getListMessageError().add("Ya existe un pedido con ese ID.");
+			return result;
+		}
+		orderRepository.addOrder(order);
+		result.setSuccessful(true);
+		result.setMessage("Pedido agregado exitosamente.");
+		return result;
 	}
 
 	public HashMap<Integer, Order> findAll() {
@@ -49,21 +60,36 @@ public class OrderService {
 	}
 
 	public Order findById(Integer idOrder) {
-		return this.orderRepository.findById(idOrder);
+		return orderRepository.findById(idOrder);
 	}
 
-	public boolean updateOrder(Order order) {
-		if (!validate(order)) {
-			return false;
+	public ResultDTO updateOrder(Order order) {
+		ResultDTO result = validate(order);
+		if (!result.isSuccessful()) {
+			return result;
 		}
-		if (orderRepository.existById(order.getIdOrder())) {
-			return false;
+		if (!orderRepository.existById(order.getIdOrder())) {
+			result.setSuccessful(false);
+			result.getListMessageError().add("No existe un pedido con ese ID.");
+			return result;
 		}
-		return orderRepository.updateOrder(order);
+		orderRepository.updateOrder(order);
+		result.setSuccessful(true);
+		result.setMessage("Pedido actualizado exitosamente.");
+		return result;
 	}
 
-	public boolean deleteOrder(Integer idOrder) {
-		return orderRepository.deleteOrder(idOrder);
+	public ResultDTO deleteOrder(Integer idOrder) {
+		ResultDTO result = new ResultDTO();
+		if (!orderRepository.existById(idOrder)) {
+			result.setSuccessful(false);
+			result.getListMessageError().add("No existe un pedido con ese ID.");
+			return result;
+		}
+		orderRepository.deleteOrder(idOrder);
+		result.setSuccessful(true);
+		result.setMessage("Pedido eliminado exitosamente.");
+		return result;
 	}
 
 	public boolean existById(Integer idOrder) {
@@ -77,5 +103,4 @@ public class OrderService {
 	public void setOrderRepository(OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
 	}
-
 }
